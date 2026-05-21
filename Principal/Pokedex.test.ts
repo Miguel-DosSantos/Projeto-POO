@@ -180,6 +180,29 @@ describe("Pokedex", () => {
         expect(dex.getTamanho()).toBe(1);
     });
 
+    test("buscarNoBanco encontra Pokémon por nome e por id", () => {
+        const dex = new Pokedex();
+
+        const resultadosNome = dex.buscarNoBanco("Pikachu");
+        const resultadosId = dex.buscarNoBanco("25");
+
+        expect(resultadosNome.length).toBeGreaterThan(0);
+        expect(resultadosNome[0].nome).toBe("Pikachu");
+        expect(resultadosId.length).toBe(1);
+        expect(resultadosId[0].id).toBe(25);
+    });
+
+    test("adicionarDoBanco adiciona Pokémon a partir do banco e evita duplicatas", () => {
+        const dex = new Pokedex();
+
+        const primeiro = dex.adicionarDoBanco(25);
+        const segundo  = dex.adicionarDoBanco(25);
+
+        expect(primeiro).toContain("Pikachu");
+        expect(dex.getTamanho()).toBe(1);
+        expect(segundo).toContain("já está na sua Pokédex");
+    });
+
     test("buscarPorIndice retorna null para índice inválido", () => {
         const dex = new Pokedex();
         expect(dex.buscarPorIndice(0)).toBeNull();
@@ -193,7 +216,7 @@ describe("Pokedex", () => {
 
         const msg = dex.treinarPokemon(0);
 
-        expect(msg).toContain("❌");
+        expect(msg).toContain("Energia insuficiente");
     });
 
     test("batalhar exige pelo menos 2 Pokémons", () => {
