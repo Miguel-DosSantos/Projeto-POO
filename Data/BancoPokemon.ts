@@ -213,4 +213,5 @@ export const BANCO_POKEMONS: DadosPokemon[] = [
     pk(149, "Dragonite",  "Normal",  134,  95,  80,  "Epico"),
     pk(150, "Mewtwo",     "Normal",  154,  90, 130,  "Lendario"),
     pk(151, "blimblimblimblimblim",     "Fogo",  1000000,  1000000, 1000000,  "Lendario"),
+    pk(151, "irineu",     "Normal",  0,  0, 0,  "Incomun"),
 ];
