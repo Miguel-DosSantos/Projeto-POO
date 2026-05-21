@@ -28,7 +28,6 @@ function explorarECapturar(): void {
       return;
     }
 
-    console.log("\n   ENCONTRO:");
     console.log(pokedex.listarEncontro());
 
     const opcaoCaptura = prompt("\n  1 - Capturar\n  2 - Próximo\n  Opção: ");
@@ -45,13 +44,13 @@ function explorarECapturar(): void {
 
     const captura = pokedex.capturar();
     if ("erro" in captura) {
-      console.log(`\n  ${captura.erro}`);
+      console.log(`\n\n  ${captura.erro}`);
       return;
     }
 
+    console.log("\n\n");
     console.log(
-      `\n  ${captura.capturado ? " Capturado" : " Não capturado"} ` +
-        (captura.mensagem ?? "")
+      `  ${captura.capturado ? "✓ Capturado!" : "✗ Não capturado"}`
     );
     return;
   }

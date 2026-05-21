@@ -227,7 +227,7 @@ export class Pokedex {
 
     listarEncontro(): string {
         if (!this._encontroAtual) return "Nenhum Pokémon em encontro.";
-        return this.renderCard(this._encontroAtual.pokemon);
+        return "\n\n" + this.renderCard(this._encontroAtual.pokemon) + "\n";
     }
 
     treinarPokemon(indice: number): string {
