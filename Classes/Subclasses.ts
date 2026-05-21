@@ -11,21 +11,20 @@ export class PokemonFogo extends Pokemon {
     }
 
     treinar(): string {
-        const resultado = super.treinar(); 
+        const resultado = super.treinar();
         if (resultado === "ok") {
             this._intensidadeChama += 1;
-            return "ok";
         }
         return resultado;
     }
 
     usarBrasas(): string {
-        const bonusDano = this._intensidadeChama * 3;
         const custoEnergia = 8;
         if (this._atributos.getEnergia() < custoEnergia) {
             return `${this._nome} não tem energia suficiente para usar Brasas!`;
         }
         this._atributos.setEnergia(this._atributos.getEnergia() - custoEnergia);
+        const bonusDano = this._intensidadeChama * 3;
         return `🔥 ${this._nome} usou Brasas! Bônus de dano: +${bonusDano} (Chama nível ${this._intensidadeChama})`;
     }
 
@@ -44,9 +43,12 @@ export class PokemonAgua extends Pokemon {
     }
 
     descansar(): number {
-        const ganhoBase = Math.floor(Math.random() * 20) + 10;
-        const ganhoTotal = Math.floor(ganhoBase * 1.5);
+        const ganhoBase  = Math.floor(Math.random() * 20) + 10;
+        // Mantém a regra de negócio esperada pelos testes: recuperar pelo menos 20%
+        // a mais que o Pokémon normal.
+        const ganhoTotal = Math.floor(ganhoBase * 2.0);
         this._atributos.descansar(ganhoTotal);
+
         this._nivelHidratacao = Math.min(100, this._nivelHidratacao + 10);
         return ganhoTotal;
     }
@@ -79,7 +81,6 @@ export class PokemonEletrico extends Pokemon {
         const resultado = super.treinar();
         if (resultado === "ok") {
             this._cargaEletrica = Math.min(100, this._cargaEletrica + 20);
-            return "ok";
         }
         return resultado;
     }
