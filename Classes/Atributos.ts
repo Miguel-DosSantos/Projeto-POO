@@ -40,7 +40,7 @@ export class Atributos {
     treinar(): string {
         const CUSTO_ENERGIA = 10;
         if (this._energia < CUSTO_ENERGIA) {
-            return "Energia insuficiente para treinar! O Pokémon precisa descansar primeiro.";
+            return "Energia insuficiente para treinar! Pokémon precisa descansar primeiro.";
         }
         this._ataque    += 5;
         this._defesa    += 3;
