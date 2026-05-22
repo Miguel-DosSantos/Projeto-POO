@@ -76,15 +76,15 @@ describe("Pokemon", () => {
 
     test("getNome e getTipo retornam valores corretos", () => {
 
-        const pokemon = new Pokemon("Pikachu", criarAtributos(), "Elétrico");
+        const pokemon = new PokemonFogo("Pikachu", criarAtributos());
 
         expect(pokemon.getNome()).toBe("Pikachu");
-        expect(pokemon.getTipo()).toBe("Elétrico");
+        expect(pokemon.getTipo()).toBe("Fogo");
     });
 
     test("descansar recupera energia positiva", () => {
 
-        const pokemon = new Pokemon("Bulbasaur", criarAtributos(50, 30, 40, 20));
+        const pokemon = new PokemonFogo("Bulbasaur", criarAtributos(50, 30, 40, 20));
         const energiaAntes = pokemon.getAtributos().getEnergia();
 
         const ganho = pokemon.descansar();
@@ -95,8 +95,8 @@ describe("Pokemon", () => {
 
     test("lutar retorna resultado com mensagem quando ambos têm energia", () => {
 
-        const p1 = new Pokemon("Charmander", criarAtributos(80, 30, 60, 100));
-        const p2 = new Pokemon("Squirtle",   criarAtributos(60, 50, 40, 100));
+        const p1 = new PokemonFogo("Charmander", criarAtributos(80, 30, 60, 100));
+        const p2 = new PokemonAgua("Squirtle",   criarAtributos(60, 50, 40, 100));
 
         const resultado = p1.lutar(p2);
 
@@ -105,8 +105,8 @@ describe("Pokemon", () => {
 
     test("lutar BLOQUEIA quando Pokémon está exausto (HP = 0)", () => {
 
-        const p1 = new Pokemon("Exausto", criarAtributos(80, 30, 60, 0));  // HP = 0
-        const p2 = new Pokemon("Normal",  criarAtributos(60, 50, 40, 100));
+        const p1 = new PokemonFogo("Exausto", criarAtributos(80, 30, 60, 0));  // HP = 0
+        const p2 = new PokemonAgua("Normal",  criarAtributos(60, 50, 40, 100));
 
         const resultado = p1.lutar(p2);
 
@@ -138,7 +138,7 @@ describe("Herança: PokemonAgua", () => {
 
     test("descansar recupera 50% a mais que Pokemon normal", () => {
         const agua    = new PokemonAgua("Squirtle",  criarAtributos(50, 30, 40, 20));
-        const normal  = new Pokemon("Pidgey",        criarAtributos(50, 30, 40, 20));
+        const normal  = new PokemonFogo("Pidgey",        criarAtributos(50, 30, 40, 20));
 
         const ganhoAgua   = agua.descansar();
         const ganhoNormal = normal.descansar();
@@ -173,7 +173,7 @@ describe("Pokedex", () => {
     test("adicionarPokemon incrementa a lista", () => {
 
         const dex = new Pokedex();
-        const pokemon = new Pokemon("Bulbasaur", criarAtributos());
+        const pokemon = new PokemonFogo("Bulbasaur", criarAtributos());
 
         dex.adicionarPokemon(pokemon);
 
@@ -212,7 +212,7 @@ describe("Pokedex", () => {
     test("treinarPokemon retorna mensagem de erro quando energia insuficiente", () => {
 
         const dex = new Pokedex();
-        dex.adicionarPokemon(new Pokemon("Fraco", criarAtributos(10, 5, 10, 2)));
+        dex.adicionarPokemon(new PokemonFogo("Fraco", criarAtributos(10, 5, 10, 2)));
 
         const msg = dex.treinarPokemon(0);
 
@@ -222,7 +222,7 @@ describe("Pokedex", () => {
     test("batalhar exige pelo menos 2 Pokémons", () => {
 
         const dex = new Pokedex();
-        dex.adicionarPokemon(new Pokemon("Solitário", criarAtributos()));
+        dex.adicionarPokemon(new PokemonFogo("Solitário", criarAtributos()));
 
         const msg = dex.batalhar(0, 1);
 
@@ -232,8 +232,8 @@ describe("Pokedex", () => {
     test("batalhar retorna resultado com os dois Pokémons envolvidos", () => {
 
         const dex = new Pokedex();
-        dex.adicionarPokemon(new Pokemon("P1", criarAtributos(80, 20, 60, 100)));
-        dex.adicionarPokemon(new Pokemon("P2", criarAtributos(60, 40, 50, 100)));
+        dex.adicionarPokemon(new PokemonFogo("P1", criarAtributos(80, 20, 60, 100)));
+        dex.adicionarPokemon(new PokemonAgua("P2", criarAtributos(60, 40, 50, 100)));
 
         const resultado = dex.batalhar(0, 1);
 

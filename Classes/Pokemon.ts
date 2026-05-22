@@ -5,7 +5,7 @@ export interface ResultadoLuta {
     mensagem: string;
 }
 
-export class Pokemon {
+export abstract class Pokemon {
 
     protected _nome: string;
     protected _atributos: Atributos;
