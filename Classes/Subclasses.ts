@@ -44,8 +44,6 @@ export class PokemonAgua extends Pokemon {
 
     descansar(): number {
         const ganhoBase  = Math.floor(Math.random() * 20) + 10;
-        // Mantém a regra de negócio esperada pelos testes: recuperar pelo menos 20%
-        // a mais que o Pokémon normal.
         const ganhoTotal = Math.floor(ganhoBase * 2.0);
         this._atributos.descansar(ganhoTotal);
 

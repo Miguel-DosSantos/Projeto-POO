@@ -6,7 +6,6 @@ import { Pokemon } from "./Classes/Pokemon";
 const prompt = promptSync();
 const pokedex = new Pokedex();
 
-// ✨ [QUEST 3] Try/catch para tratar entradas inválidas
 function lerNumero(msg: string): number {
   try {
     const input = prompt(msg);
@@ -119,7 +118,6 @@ function usarHabilidadeEspecial(): void {
   }
 }
 
-// ✨ [QUEST 2] Loop polimórfico em massa - treina todos os Pokémons usando polimorfismo
 function treinarEmMassa(): void {
   if (pokedex.getTamanho() === 0) {
     console.log("\n  Pokédex vazia! Capture Pokémons primeiro.");
@@ -132,7 +130,6 @@ function treinarEmMassa(): void {
 
   console.log("\n  🏋️  Iniciando TREINO EM MASSA de toda a equipe...\n");
 
-  // Loop que percorre Array da Superclasse e executa ação em massa via polimorfismo
   for (const pokemon of pokemons) {
     const resultado = pokemon.treinar();
     
@@ -151,7 +148,6 @@ function treinarEmMassa(): void {
 
 let opcao = "";
 
-// ✨ [QUEST 3] Loop principal com try/catch para garantir resiliência
 while (opcao !== "9") {
   try {
     console.log("\n╔══════════════════════════════════════╗");

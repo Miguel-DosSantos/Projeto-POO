@@ -181,7 +181,6 @@ export class Pokedex {
             case "Eletrico":
                 return new PokemonEletrico(dados.nome, atributos);
             default:
-                // ✨ Como Pokemon é abstract, usamos PokemonFogo como padrão para Pokémons normais
                 return new PokemonFogo(dados.nome, atributos);
         }
     }
