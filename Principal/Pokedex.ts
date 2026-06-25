@@ -193,13 +193,13 @@ export class Pokedex {
 
         return [
             "╔══════════════════════════════════════╗",
-            "║              ENCONTRO               ║",
+            "║              ENCONTRO                ║",
             "╠══════════════════════════════════════╣",
-            `║ #${String(dados.id).padStart(3, "0")} ${dados.nome.padEnd(26, " ")} ║`,
-            `║ ${linhaTipoRar.padEnd(37, " ")} ║`,
-            `║ ${stats.padEnd(37, " ")} ║`,
-            `║ ${aparicao.padEnd(37, " ")} ║`,
-            `║ ${captura.padEnd(37, " ")} ║`,
+            `║ #${String(dados.id).padStart(3, "0")} ${dados.nome.padEnd(26, " ")}      ║`,
+            `║ ${linhaTipoRar.padEnd(37, " ")}║`,
+            `║ ${stats.padEnd(37, " ")}║`,
+            `║ ${aparicao.padEnd(37, " ")}║`,
+            `║ ${captura.padEnd(37, " ")}║`,
             "╚══════════════════════════════════════╝",
         ].join("\n");
     }
