@@ -153,7 +153,7 @@ while (opcao !== "9") {
     console.log("\n╔══════════════════════════════════════╗");
     console.log("║         🎮  POKÉDEX SYSTEM           ║");
     console.log("╠══════════════════════════════════════╣");
-    console.log("║  1 - Procurar Pokémon (explorar)   ║");
+    console.log("║  1 - Procurar Pokémon (explorar)     ║");
     console.log("║  2 - Ver todos os Pokémons           ║");
     console.log("║  3 - Treinar Pokémon                 ║");
     console.log("║  4 - Descansar Pokémon               ║");
