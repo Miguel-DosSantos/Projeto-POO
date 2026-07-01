@@ -3,12 +3,21 @@ import { Pokemon }          from "../Classes/Pokemon";
 import { PokemonFogo, PokemonAgua, PokemonEletrico } from "../Classes/Subclasses";
 import { Pokedex }          from "./Pokedex";
 
+/**
+ * Helper para criar atributos com valores padrão
+ * Usado em todos os testes para simplificar a criação de Pokémons
+ */
 function criarAtributos(ataque = 50, defesa = 30, agilidade = 40, energia = 80): Atributos {
     return new Atributos(ataque, defesa, agilidade, energia);
 }
 
+/**
+ * Suite de testes para a classe Atributos
+ * Valida: getters, setters, treino, descanso e cálculo de dano
+ */
 describe("Atributos", () => {
 
+    // Testa se os getters retornam os valores iniciais corretamente
     test("getter retorna valor inicial correto", () => {
 
         const attr = criarAtributos(50, 30, 40, 80);
@@ -19,6 +28,7 @@ describe("Atributos", () => {
         expect(attr.getEnergia()).toBe(80);
     });
 
+    // Testa se os setters rejeitam valores negativos (regra de negócio)
     test("setter REJEITA valor negativo (regra de negócio Semana 8)", () => {
 
         const attr = criarAtributos(50, 30, 40, 80);
@@ -26,10 +36,12 @@ describe("Atributos", () => {
         attr.setAtaque(-10);
         attr.setEnergia(-5);
 
+        // Valores devem permanecer inalterados
         expect(attr.getAtaque()).toBe(50);
         expect(attr.getEnergia()).toBe(80);
     });
 
+    // Testa se treinar aumenta stats e consome energia
     test("treinar aumenta combate e consome energia", () => {
 
         const attr = criarAtributos(50, 30, 40, 80);
@@ -42,38 +54,47 @@ describe("Atributos", () => {
         expect(attr.getEnergia()).toBeLessThan(80);
     });
 
+    // Testa o limite: treinar com energia insuficiente deve falhar
     test("treinar FALHA quando energia < 10 (valor-limite)", () => {
 
-        const attr = criarAtributos(50, 30, 40, 5);  
+        const attr = criarAtributos(50, 30, 40, 5);  // Energia abaixo do custo (10)
 
         const resultado = attr.treinar();
 
         expect(resultado).not.toBe("ok");
-        expect(resultado.length).toBeGreaterThan(0);
+        expect(resultado.length).toBeGreaterThan(0);  // Deve retornar mensagem de erro
     });
 
+    // Testa se a defesa reduz o dano recebido
     test("receberDano reduz energia respeitando defesa", () => {
 
         const attr = criarAtributos(50, 30, 40, 100);
 
-        const danoReal = attr.receberDano(40);  
+        const danoReal = attr.receberDano(40);  // Dano 40 - Defesa 30 = 10
 
         expect(danoReal).toBe(10);
-        expect(attr.getEnergia()).toBe(90);
+        expect(attr.getEnergia()).toBe(90);  // 100 - 10 = 90
     });
 
+    // Testa o limite: energia nunca deve ficar negativa
     test("energia nunca fica negativa após dano excessivo (valor-limite)", () => {
 
         const attr = criarAtributos(50, 0, 40, 10);
 
-        attr.receberDano(999);
+        attr.receberDano(999);  // Dano muito alto
 
-        expect(attr.getEnergia()).toBe(0);
+        expect(attr.getEnergia()).toBe(0);  // Deve ser 0, nunca negativo
     });
+
 });
 
+/**
+ * Suite de testes para a classe Pokemon
+ * Valida: construção, getters, descanso e batalhas
+ */
 describe("Pokemon", () => {
 
+    // Testa se os getters retornam nome e tipo corretos
     test("getNome e getTipo retornam valores corretos", () => {
 
         const pokemon = new PokemonFogo("Pikachu", criarAtributos());
@@ -82,6 +103,7 @@ describe("Pokemon", () => {
         expect(pokemon.getTipo()).toBe("Fogo");
     });
 
+    // Testa se o descanso recupera energia positiva
     test("descansar recupera energia positiva", () => {
 
         const pokemon = new PokemonFogo("Bulbasaur", criarAtributos(50, 30, 40, 20));
@@ -92,8 +114,7 @@ describe("Pokemon", () => {
         expect(ganho).toBeGreaterThan(0);
         expect(pokemon.getAtributos().getEnergia()).toBeGreaterThan(energiaAntes);
     });
-
-    test("lutar retorna resultado com mensagem quando ambos têm energia", () => {
+    // Testa uma batalha com ambos Pokémons com energia    test("lutar retorna resultado com mensagem quando ambos têm energia", () => {
 
         const p1 = new PokemonFogo("Charmander", criarAtributos(80, 30, 60, 100));
         const p2 = new PokemonAgua("Squirtle",   criarAtributos(60, 50, 40, 100));
@@ -103,6 +124,7 @@ describe("Pokemon", () => {
         expect(resultado.mensagem.length).toBeGreaterThan(0);
     });
 
+    // Testa o limite: Pokémon exausto não pode batalhar
     test("lutar BLOQUEIA quando Pokémon está exausto (HP = 0)", () => {
 
         const p1 = new PokemonFogo("Exausto", criarAtributos(80, 30, 60, 0));  // HP = 0
@@ -115,18 +137,25 @@ describe("Pokemon", () => {
     });
 });
 
+/**
+ * Suite de testes para herança: PokemonFogo
+ * Valida: instância de Pokemon, tipo correto, habilidade especística
+ */
 describe("Herança: PokemonFogo", () => {
 
+    // Testa se PokemonFogo é uma instância de Pokemon (relação IS-A)
     test("É instância de Pokemon (teste É UM)", () => {
         const fogo = new PokemonFogo("Charmander", criarAtributos());
         expect(fogo instanceof Pokemon).toBe(true);
     });
 
+    // Testa se o tipo é definido corretamente via super()
     test("tipo é definido corretamente pela superclasse via super()", () => {
         const fogo = new PokemonFogo("Charmander", criarAtributos());
         expect(fogo.getTipo()).toBe("Fogo");
     });
 
+    // Testa se usarBrasas falha sem energia suficiente
     test("usarBrasas FALHA quando energia insuficiente", () => {
         const fogo = new PokemonFogo("Charmander", criarAtributos(50, 30, 40, 3));
         const msg = fogo.usarBrasas();
@@ -134,8 +163,13 @@ describe("Herança: PokemonFogo", () => {
     });
 });
 
+/**
+ * Suite de testes para herança: PokemonAgua
+ * Valida: método descansar com bônus de 50%
+ */
 describe("Herança: PokemonAgua", () => {
 
+    // Testa se PokemonAgua recupera 50% a mais de energia ao descansar
     test("descansar recupera 50% a mais que Pokemon normal", () => {
         const agua    = new PokemonAgua("Squirtle",  criarAtributos(50, 30, 40, 20));
         const normal  = new PokemonFogo("Pidgey",        criarAtributos(50, 30, 40, 20));
@@ -147,14 +181,20 @@ describe("Herança: PokemonAgua", () => {
     });
 });
 
+/**
+ * Suite de testes para herança: PokemonEletrico
+ * Valida: habilidade de raio e acúmulo de carga durante treinamento
+ */
 describe("Herança: PokemonEletrico", () => {
 
+    // Testa se usarRaio falha sem carga suficiente
     test("usarRaio FALHA sem carga suficiente", () => {
         const eletrico = new PokemonEletrico("Pikachu", criarAtributos());
         const msg = eletrico.usarRaio();
         expect(msg).toContain("não tem carga");
     });
 
+    // Testa se o treinamento acumula carga elétrica
     test("treinar acumula carga elétrica", () => {
         const eletrico = new PokemonEletrico("Pikachu", criarAtributos(50, 30, 40, 100));
         eletrico.treinar();
@@ -163,13 +203,19 @@ describe("Herança: PokemonEletrico", () => {
     });
 });
 
+/**
+ * Suite de testes para a classe Pokedex
+ * Valida: gerenciamento de coleção, busca, captura e batalhas
+ */
 describe("Pokedex", () => {
 
+    // Testa se a Pokedex começa vazia
     test("começa vazia", () => {
         const dex = new Pokedex();
         expect(dex.getTamanho()).toBe(0);
     });
 
+    // Testa se adicionarPokemon incrementa a lista
     test("adicionarPokemon incrementa a lista", () => {
 
         const dex = new Pokedex();
@@ -180,6 +226,7 @@ describe("Pokedex", () => {
         expect(dex.getTamanho()).toBe(1);
     });
 
+    // Testa busca no banco por nome e por ID
     test("buscarNoBanco encontra Pokémon por nome e por id", () => {
         const dex = new Pokedex();
 
@@ -192,6 +239,7 @@ describe("Pokedex", () => {
         expect(resultadosId[0].id).toBe(25);
     });
 
+    // Testa adição do banco e prevenção de duplicatas
     test("adicionarDoBanco adiciona Pokémon a partir do banco e evita duplicatas", () => {
         const dex = new Pokedex();
 
@@ -203,12 +251,14 @@ describe("Pokedex", () => {
         expect(segundo).toContain("já está na sua Pokédex");
     });
 
+    // Testa se buscarPorIndice retorna null para índice inválido
     test("buscarPorIndice retorna null para índice inválido", () => {
         const dex = new Pokedex();
         expect(dex.buscarPorIndice(0)).toBeNull();
         expect(dex.buscarPorIndice(-1)).toBeNull();
     });
 
+    // Testa se treinarPokemon retorna mensagem de erro quando energia insuficiente
     test("treinarPokemon retorna mensagem de erro quando energia insuficiente", () => {
 
         const dex = new Pokedex();
@@ -219,6 +269,7 @@ describe("Pokedex", () => {
         expect(msg).toContain("Energia insuficiente");
     });
 
+    // Testa se batalhar exige pelo menos 2 Pokémons
     test("batalhar exige pelo menos 2 Pokémons", () => {
 
         const dex = new Pokedex();
@@ -229,6 +280,7 @@ describe("Pokedex", () => {
         expect(msg).toContain("pelo menos 2");
     });
 
+    // Testa se batalhar retorna resultado com os dois Pokémons envolvidos
     test("batalhar retorna resultado com os dois Pokémons envolvidos", () => {
 
         const dex = new Pokedex();

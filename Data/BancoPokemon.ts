@@ -1,42 +1,52 @@
 
+// Tipos de Pokémon disponíveis
 export type PokemonTipo     = "Fogo" | "Agua" | "Eletrico" | "Normal";
+// Níveis de raridade de Pokémon
 export type PokemonRaridade = "Comum" | "Incomum" | "Epico" | "Lendario";
 
+// Interface com os atributos estatísticos de um Pokémon
 export interface PokemonStats {
     ataque: number;
     defesa: number;
     agilidade: number;
 }
 
+// Interface com todos os dados de um Pokémon do banco
 export interface DadosPokemon {
-    id:             number;
-    nome:           string;
-    tipo:           PokemonTipo;
-    imagem:         string;     
-    raridade:       PokemonRaridade;
-    stats:          PokemonStats;
-    chanceAparicao: number;      
-    taxaCaptura:    number;      
+    id:             number;         // ID único do Pokémon
+    nome:           string;         // Nome do Pokémon
+    tipo:           PokemonTipo;    // Tipo (determina evolução)
+    imagem:         string;         // URL da imagem (vazio por enquanto)
+    raridade:       PokemonRaridade;// Raridade na natureza
+    stats:          PokemonStats;   // Atributos de combate
+    chanceAparicao: number;         // Peso na exploração (0-1)
+    taxaCaptura:    number;         // Chance de captura (0-1)
 }
 
+// Retorna a taxa de captura baseada na raridade do Pokémon
+// Pokémon comuns são fáceis de capturar, lendários são quase impossíveis
 function taxaPorRaridade(raridade: PokemonRaridade): number {
     switch (raridade) {
-        case "Comum":    return 0.85;
-        case "Incomum":  return 0.50;
-        case "Epico":    return 0.12;
-        case "Lendario": return 0.04;
+        case "Comum":    return 0.85;  // 85% de chance
+        case "Incomum":  return 0.50;  // 50% de chance
+        case "Epico":    return 0.12;  // 12% de chance
+        case "Lendario": return 0.04;  // 4% de chance
     }
 }
 
+// Retorna o peso (probabilidade de aparição) baseado na raridade
+// Pokémon comuns aparecem mais frequentemente
 function pesoPorRaridade(raridade: PokemonRaridade): number {
     switch (raridade) {
-        case "Comum":    return 0.60;
-        case "Incomum":  return 0.25;
-        case "Epico":    return 0.04;
-        case "Lendario": return 0.01;
+        case "Comum":    return 0.60;  // 60% de probabilidade na exploração
+        case "Incomum":  return 0.25;  // 25% de probabilidade
+        case "Epico":    return 0.04;  // 4% de probabilidade
+        case "Lendario": return 0.01;  // 1% de probabilidade
     }
 }
 
+// Helper function: Cria um objeto DadosPokemon de forma simplificada
+// Se chanceAparicao não for fornecida, usa o peso por raridade automaticamente
 function pk(
     id: number,
     nome: string,
@@ -60,6 +70,8 @@ function pk(
 }
 
 
+// Base de dados com todos os Pokémons disponíveis no jogo
+// Cada Pokémon tem stats iniciais, raridade e chances de captura
 export const BANCO_POKEMONS: DadosPokemon[] = [
 
     pk(1,   "Bulbasaur",   "Normal",   49,  49,  45,  "Comum"),
